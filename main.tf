@@ -2,7 +2,7 @@
 # CREATE Route53 record for the instance
 # --------------------------------------------------------
 resource "aws_route53_zone" "this" {
-  count = "${var.zone_id == "false" ? 1 : 0}"
+  count = var.zone_id == "false" ? 1 : 0
   name = "${var.domain}"
   comment = "${var.description}"
 }
