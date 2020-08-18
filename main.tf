@@ -18,7 +18,7 @@ resource "aws_route53_record" "this" {
 }
 
 resource "aws_route53_record" "alias" {
-  depends_on  = ["aws_route53_zone.this"]
+  depends_on  = [aws_route53_zone.this]
   count = "${var.zone_id == "false" && length(var.alias["names"]) > 0 ? length(var.alias["names"]) : 0}"
   zone_id = "${var.zone_id != "false" ? var.zone_id : aws_route53_zone.this.0.zone_id}"
   name = "${element(var.alias["names"], count.index)}${var.domain}"
