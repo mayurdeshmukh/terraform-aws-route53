@@ -3,8 +3,8 @@
 # --------------------------------------------------------
 resource "aws_route53_zone" "this" {
   count = var.zone_id == "false" ? 1 : 0
-  name = "${var.domain}"
-  comment = "${var.description}"
+  name = var.domain
+  comment = var.description
 }
 
 resource "aws_route53_record" "this" {
@@ -34,7 +34,7 @@ resource "aws_route53_record" "alias" {
 
 resource "aws_route53_record" "imported" {
   count = "${var.zone_id != "false" && length(var.records["names"]) > 0 ? length(var.records["names"]) : 0}"
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
   name = "${element(var.records["names"], count.index)}${var.domain}"
   type = "${element(var.records["types"], count.index)}"
   ttl = "${element(var.records["ttls"], count.index)}"
@@ -43,7 +43,7 @@ resource "aws_route53_record" "imported" {
 
 resource "aws_route53_record" "alias_imported" {
   count = "${var.zone_id != "false" && length(var.alias["names"]) > 0 ? length(var.alias["names"]) : 0}"
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
   name = "${element(var.alias["names"], count.index)}${var.domain}"
   type = "A"
 
